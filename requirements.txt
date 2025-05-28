@@ -1,0 +1,9 @@
+numpy>=1.20.0
+gymnasium>=0.28.1
+mujoco>=2.1.0
+stable-baselines3>=2.0.0
+# 以下行表示使用CUDA支持安装PyTorch，可以根据系统配置修改
+# 以下命令仅作为示例，建议访问PyTorch官网 https://pytorch.org/get-started/locally/
+# 获取适合您系统的精确安装指令
+torch>=1.10.0
+tensorboard>=2.10.0 

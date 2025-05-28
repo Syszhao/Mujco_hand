@@ -1,0 +1,302 @@
+<mujoco model="rm_75_6f_description">
+  <option iterations="50" timestep="0.001" solver="PGS" gravity="0 0 -9.81" />
+
+  <compiler angle="radian" meshdir="meshes" eulerseq="zyx" autolimits="true" />
+
+  <default>
+    <joint limited="true" damping="0.01" armature="0.01" frictionloss="0.01" />
+    <geom condim="4" contype="1" conaffinity="15" friction="0.7 0.2 0.05" solref="0.001 2" />
+    <motor ctrllimited="true" />
+    <equality solref="0.001 2" />
+    <default class="visualgeom">
+      <geom material="visualgeom" condim="1" contype="0" conaffinity="0" />
+    </default>
+  </default>
+
+  <asset>
+    <mesh name="base_link" file="base_link.STL" />
+    <mesh name="Link1" file="Link1.STL" />
+    <mesh name="Link2" file="Link2.STL" />
+    <mesh name="Link3" file="Link3.STL" />
+    <mesh name="Link4" file="Link4.STL" />
+    <mesh name="Link5" file="Link5.STL" />
+    <mesh name="Link6" file="Link6.STL" />
+    <mesh name="Link7" file="Link7.STL" />
+
+    <mesh name="R_hand_base_link" file="R_hand_base_link.STL" />
+    <mesh name="R_thumb_proximal_base" file="R_thumb_proximal_base.STL" />
+    <mesh name="R_thumb_proximal" file="R_thumb_proximal.STL" />
+    <mesh name="R_thumb_intermediate" file="R_thumb_intermediate.STL" />
+    <mesh name="R_thumb_distal" file="R_thumb_distal.STL" />
+    <mesh name="R_index_proximal" file="R_index_proximal.STL" />
+    <mesh name="R_index_distal" file="R_index_distal.STL" />
+    <mesh name="R_middle_proximal" file="R_middle_proximal.STL" />
+    <mesh name="R_middle_distal" file="R_middle_distal.STL" />
+    <mesh name="R_ring_proximal" file="R_ring_proximal.STL" />
+    <mesh name="R_ring_distal" file="R_ring_distal.STL" />
+    <mesh name="R_pinky_proximal" file="R_pinky_proximal.STL" />
+    <mesh name="R_pinky_distal" file="R_pinky_distal.STL" />
+
+<!--     &lt;!&ndash; 加载纹理 &ndash;&gt;-->
+<!--    <texture name="texture_A" file="./meshes/A.png"/>-->
+<!--    <texture name="texture_B" file="./meshes/B.png"/>-->
+<!--    <texture name="texture_C" file="./meshes/C.png"/>-->
+<!--    <texture name="texture_D" file="./meshes/D.png"/>-->
+<!--    <texture name="texture_E" file="./meshes/E.png"/>-->
+<!--    <texture name="texture_F" file="./meshes/F.png"/>-->
+<!--    &lt;!&ndash; 为每个纹理创建材质 &ndash;&gt;-->
+<!--    <material name="material_A" texture="texture_A"/>-->
+<!--    <material name="material_B" texture="texture_B"/>-->
+<!--    <material name="material_C" texture="texture_C"/>-->
+<!--    <material name="material_D" texture="texture_D"/>-->
+<!--    <material name="material_E" texture="texture_E"/>-->
+<!--    <material name="material_F" texture="texture_F"/>-->
+
+    <texture name="texplane" type="2d" builtin="checker" rgb1=".0 .0 .0" rgb2=".8 .8 .8" width="100" height="100" />
+    <material name="matplane" reflectance="0." texture="texplane" texrepeat="1 1" texuniform="true" />
+    <material name="visualgeom" rgba="0.5 0.9 0.2 1" />
+  </asset>
+
+  <worldbody>
+    <light directional="true" diffuse="0.2 0.2 0.2" specular="0.05 0.05 0.05" pos="0 0 5.0" dir="1 1 -1" castshadow="false" />
+    <light directional="true" diffuse="0.2 0.2 0.2" specular="0.05 0.05 0.05" pos="0 0 5.0" dir="-1 1 -1" castshadow="false" />
+    <light directional="true" diffuse="0.2 0.2 0.2" specular="0.05 0.05 0.05" pos="0 0 5.0" dir="1 -1 -1" castshadow="false" />
+
+    <geom name="ground" type="plane" pos="0 0 0" size="100 100 0.001" quat="1 0 0 0" material="matplane" condim="3" contype="1" conaffinity="1" friction="0.05 0.001 0.0001"/>
+    <camera name="zhengshi" pos="-0.3 -0.5 1.0801624661965566" xyaxes="1 0 0 0 0.7071 0.7071"/>
+<!--    <camera name="fushi" target="cube_body1" pos="-0.31 0 0.9" xyaxes="1 0 0 0 1 0" fovy="20"/>-->
+      <body name="ball1" pos="-0.28 0.016 0.6589">
+            <joint name="ball1_free" type="free"/>
+            <inertial mass="1" pos="0 0 0" diaginertia="0.01 0.01 0.01"/>
+            <geom name="ball1_geom" type="sphere" size="0.0173" rgba="0 0 1 1" contype="1" conaffinity="1" friction="0.05 0.001 0.0001"/>
+      </body>
+
+        <!-- 定义第二个球 -->
+        <body name="ball2" pos="-0.28 -0.02 0.6589">
+            <joint name="ball2_free" type="free"/>
+            <inertial mass="1" pos="0 0 0" diaginertia="0.01 0.01 0.01"/>
+            <geom name="ball2_geom" type="sphere" size="0.0173" rgba="1 0 0 1" contype="1" conaffinity="1" friction="0.05 0.001 0.0001"/>
+        </body>
+
+    <!--平台底座-->
+    <body name="iron_base" pos="0 0 0.071" quat="1 0 0 0">
+      <!-- 铁板的形状和材质设置 -->
+      <geom type="box" size="0.5 0.5 0.05" rgba="0.6 0.3 0.1 1" density="7800" />
+      <!-- 铁板的质量和惯性设置 -->
+      <inertial mass="50" pos="0 0 0" quat="1 0 0 0" diaginertia="0.05 0.05 0.05"/>
+    </body>
+
+<!--      pos="-0.334 0 0.624"-->
+<!--    <body name="cube_body1" pos="-0.35 0 0.8" quat="1 0 0 0">-->
+<!--      <freejoint name="cube_body1" />-->
+<!--      <inertial mass="1" pos="0 0 0" diaginertia="0.01 0.01 0.01"/>-->
+
+<!--      &lt;!&ndash; 顶面 (A) &ndash;&gt;-->
+<!--      <geom type="box" size="0.017 0.017 0.017" pos="0 0 0.00001" material="material_A" contype="1" conaffinity="1" solref="0.01 1" />-->
+
+<!--      &lt;!&ndash; 底面 (F) &ndash;&gt;-->
+<!--      <geom type="box" size="0.017 0.017 0.017" pos="0 0 -0.00001" material="material_F" contype="1" conaffinity="1" solref="0.01 1" />-->
+
+<!--      &lt;!&ndash; 前面 (B) &ndash;&gt;-->
+<!--      <geom type="box" size="0.017 0.017 0.017" pos="0 0.00001 0" material="material_B" contype="1" conaffinity="1" solref="0.01 1" />-->
+
+<!--      &lt;!&ndash; 后面 (C) &ndash;&gt;-->
+<!--      <geom type="box" size="0.017 0.017 0.017" pos="0 -0.00001 0" material="material_C" contype="1" conaffinity="1" solref="0.01 1" />-->
+
+<!--      &lt;!&ndash; 左面 (D) &ndash;&gt;-->
+<!--      <geom type="box" size="0.017 0.017 0.017" pos="-0.00001 0 0" material="material_D" contype="1" conaffinity="1" solref="0.01 1" />-->
+
+<!--      &lt;!&ndash; 右面 (E) &ndash;&gt;-->
+<!--      <geom type="box" size="0.017 0.017 0.017" pos="0.00001 0 0" material="material_E" contype="1" conaffinity="1" solref="0.01 1" />-->
+<!--    </body>-->
+
+    <camera name="track" mode="trackcom" pos="0 -3.0 0.5201624661965566" xyaxes="1 0 0 0 0 1" />
+
+
+    <!--机械臂部分-->
+    <body name="root1" pos="0.2 0 0.124162466196556553" quat="1 0 0 0">
+      <freejoint name="root1" />
+      <site name="imu1" size="0.01" pos="0 0 0" />
+      <geom type="mesh" rgba="1 1 1 1" mesh="base_link" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+      <geom type="mesh" rgba="1 1 1 1" mesh="base_link" />
+      <body name="Link1" pos="0 0 0.2405" quat="0.707105 -0.707108 0 0">
+        <inertial pos="-2.1376e-07 0.025186 -0.021108" quat="0.593933 0.804515 0.000192591 -0.000152821" mass="0.59356" diaginertia="0.0012661 0.00124679 0.000496262" />
+        <!--joint name="joint1" pos="0 0 0" axis="0 -1 0" range="-3.107 3.107" actuatorfrcrange="-100 100" /-->
+        <geom type="mesh" rgba="1 1 1 1" mesh="Link1" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+        <geom type="mesh" rgba="1 1 1 1" mesh="Link1" />
+        <body name="Link2" quat="0.707105 0.707108 0 0">
+          <inertial pos="4.1111e-07 0.011078 0.076129" quat="0.700419 0.0973659 -0.0973528 0.700325" mass="0.43285" diaginertia="0.0013016 0.0012584 0.000238373" />
+          <!--joint name="joint2" pos="0 0 0" axis="0 1 0" range="-2.269 2.269" actuatorfrcrange="-100 100" /-->
+          <geom type="mesh" rgba="1 1 1 1" mesh="Link2" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+          <geom type="mesh" rgba="1 1 1 1" mesh="Link2" />
+          <body name="Link3" pos="0 0 0.256" quat="0.707105 -0.707108 0 0">
+            <inertial pos="-4.7932e-07 0.027347 -0.023544" quat="0.593129 0.805107 0.000113245 -7.25395e-05" mass="0.43132" diaginertia="0.00079433 0.000774631 0.000270809" />
+            <!--joint name="joint3" pos="0 0 0" axis="0 -1 0" range="-3.107 3.107" actuatorfrcrange="-100 100" /-->
+            <geom type="mesh" rgba="1 1 1 1" mesh="Link3" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+            <geom type="mesh" rgba="1 1 1 1" mesh="Link3" />
+            <!-- <body name="Link4" quat="0.707105 0 -0.707108 0"> -->
+            <body name="Link4" quat="0.5 0.5 -0.5 -0.5 ">
+              <inertial pos="5.0444e-06 0.010569 0.059593" quat="0.699779 0.0991931 -0.0993915 0.700422" mass="0.28963" diaginertia="0.000656041 0.00063737 0.000114619" />
+              <!--joint name="joint4" pos="0 0 0" axis="0 1 0" range="-2.356 2.356" actuatorfrcrange="-100 100" /-->
+              <geom type="mesh" rgba="1 1 1 1" mesh="Link4" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+              <geom type="mesh" rgba="1 1 1 1" mesh="Link4" />
+              <body name="Link5" pos="0 0 0.21" quat="0.707105 -0.707108 0 0">
+                <inertial pos="1.1466e-06 0.021541 -0.018041" quat="0.602601 0.798043 -7.29912e-05 6.38891e-05" mass="0.23941" diaginertia="0.00028594 0.000275321 0.000107299" />
+                <!--joint name="joint5" pos="0 0 0" axis="0 -1 0" range="-3.107 3.107" actuatorfrcrange="-100 100" /-->
+                <geom type="mesh" rgba="1 1 1 1" mesh="Link5" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+                <geom type="mesh" rgba="1 1 1 1" mesh="Link5" />
+                <body name="Link6" quat="0.707105 0.707108 0 0">
+                  <inertial pos="4.5754e-06 0.0073681 0.059382" quat="0.6989 0.105282 -0.10547 0.699522" mass="0.21879" diaginertia="0.000358601 0.00035053 8.07893e-05" />
+                  <!--joint name="joint6" pos="0 0 0" axis="0 1 0" range="-2.234 2.234" actuatorfrcrange="-100 100" /-->
+                  <geom type="mesh" rgba="1 1 1 1" mesh="Link6" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+                  <geom type="mesh" rgba="1 1 1 1" mesh="Link6" />
+                  <body name="Link7" pos="0 0 0.1725">
+                    <inertial pos="0.00032231 -0.0001782 -0.028676" quat="0.612939 0.351641 -0.613619 0.352317" mass="0.14433" diaginertia="6.1463e-05 3.68926e-05 3.38524e-05" />
+                    <!--joint name="joint7" pos="0 0 0" axis="0 0 1" range="-6.283 6.283" actuatorfrcrange="-100 100" /-->
+                    <geom type="mesh" rgba="1 1 1 1" mesh="Link7" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+                    <geom type="mesh" rgba="1 1 1 1" mesh="Link7" />
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+
+
+    <body name="R_hand_base_link" pos="-0.185 0 0.615" quat="0.707 0 -0.76 0">
+    <freejoint name="R_hand_base_link" />
+    <site name="imu2" size="0.01" pos="0 0 0" />
+
+    <!-- 手部基座：视觉和碰撞 geom 均增加了 name 属性 -->
+    <geom name="R_hand_base_link_visual_geom" pos="0.256 -0.07764 0.085182" quat="-0.707107 0.009563107 0.000563069 0.707107" type="mesh" rgba="1 1 1 1" mesh="R_hand_base_link" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+    <geom name="R_hand_base_link_collision_geom" type="mesh" rgba="1 1 1 1" mesh="R_hand_base_link" pos="0.256 -0.07764 0.085182" quat="-0.707107 0.009563107 0.000563069 0.707107" />
+<!--pos="0.02527 0.020975 0.0746609"-->
+    <body name="R_thumb_proximal_base" pos="0.02427 0.021975 0.0746609" quat="-0.371841 -0.371253 0.602107 0.601142">
+        <inertial pos="-0.0048772 -0.010163 0.00044069" quat="0.075637 0.631378 -0.107678 0.764229" mass="0.0018869" diaginertia="8.66028e-08 6.87321e-08 4.94192e-08" />
+        <joint name="R_thumb_MCP_joint1" pos="0 0 0" axis="0 -1 0" range="0 1.1" actuatorfrcrange="-50 50" />
+        <geom name="R_thumb_proximal_base_visual_geom" type="mesh" rgba="1 1 1 1" mesh="R_thumb_proximal_base" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+        <geom name="R_thumb_proximal_base_collision_geom" type="mesh" rgba="1 1 1 1" mesh="R_thumb_proximal_base" />
+        <body name="R_thumb_proximal" pos="-0.0165 -0.011843 0" quat="-0.660498 0.252468 -0.660501 -0.252469">
+            <inertial pos="-3.8592e-05 0.02533 -0.0017007" quat="0.656826 0.754039 0.00146914 -0.00128614" mass="0.0066075" diaginertia="2.78601e-06 2.43932e-06 8.64597e-07" />
+            <joint name="R_thumb_MCP_joint2" pos="0 0 0" axis="1 0 0" range="0 0.5" actuatorfrcrange="-50 50" />
+            <geom name="R_thumb_proximal_visual_geom" type="mesh" rgba="1 1 1 1" mesh="R_thumb_proximal" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+            <geom name="R_thumb_proximal_collision_geom" type="mesh" rgba="1 1 1 1" mesh="R_thumb_proximal" />
+            <body name="R_thumb_intermediate" pos="0 0.055863 0.0039241" quat="0.999817 -0.0191483 0 0">
+                <inertial pos="2.8437e-07 0.0072526 -0.0064293" quat="0.575988 0.817458 -0.000107087 6.96147e-05" mass="0.0037847" diaginertia="4.6531e-07 4.48088e-07 2.45662e-07" />
+                <joint name="R_thumb_PIP_joint" pos="0 0 0" axis="1 0 0" range="0 1" actuatorfrcrange="-50 50" />
+                <geom name="R_thumb_intermediate_visual_geom" type="mesh" rgba="1 1 1 1" mesh="R_thumb_intermediate" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+                <geom name="R_thumb_intermediate_collision_geom" type="mesh" rgba="1 1 1 1" mesh="R_thumb_intermediate" />
+                <body name="R_thumb_distal" pos="0 0.022558 -0.0020717" quat="0.999983 -0.00582097 0 0">
+                    <inertial pos="-3.3054e-06 0.010511 -0.00057863" quat="0.624404 0.781098 0.00147531 -0.00199963" mass="0.0033441" diaginertia="2.0026e-07 1.95252e-07 8.15973e-08" />
+                    <geom name="R_thumb_distal_visual_geom" type="mesh" rgba="1 1 1 1" mesh="R_thumb_distal" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+                    <geom name="R_thumb_distal_collision_geom" type="mesh" rgba="1 1 1 1" mesh="R_thumb_distal" />
+                </body>
+            </body>
+        </body>
+    </body>
+
+    <body name="R_index_proximal" pos="0.00703 0.017005 0.137056" quat="-0.564983 -0.425198 -0.445532 -0.549091">
+        <inertial pos="0.0099008 0.011884 0.0016958" quat="0.629448 0.777042 2.20645e-05 -2.45535e-05" mass="0.0042403" diaginertia="6.9398e-07 6.62877e-07 2.10913e-07" />
+        <joint name="R_index_MCP_joint" pos="0 0 0" axis="1 0 0" range="0 1.7" actuatorfrcrange="-50 50" />
+        <geom name="R_index_proximal_visual_geom" type="mesh" rgba="1 1 1 1" mesh="R_index_proximal" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+        <geom name="R_index_proximal_collision_geom" type="mesh" rgba="1 1 1 1" mesh="R_index_proximal" />
+        <body name="R_index_distal" pos="0.001575 0.030445 0.010275" quat="0.999755 0.0221422 0 0">
+            <inertial pos="0.0083258 0.019591 0.0019565" quat="0.581929 0.813239 4.32051e-07 6.03786e-07" mass="0.0045683" diaginertia="7.8179e-07 7.72465e-07 8.47248e-08" />
+            <joint name="R_index_DIP_joint" pos="0 0 0" axis="1 0 0" range="0 1.6" actuatorfrcrange="-50 50" />
+            <geom name="R_index_distal_visual_geom" type="mesh" rgba="1 1 1 1" mesh="R_index_distal" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+            <geom name="R_index_distal_collision_geom" type="mesh" rgba="1 1 1 1" mesh="R_index_distal" />
+        </body>
+    </body>
+
+    <body name="R_middle_proximal" pos="0.00703 -0.000486 0.137101" quat="-0.558779 -0.43332 -0.434209 -0.558088">
+        <inertial pos="0.008065 0.011884 0.0016958" quat="0.629448 0.777042 2.15784e-05 -2.62734e-05" mass="0.0042403" diaginertia="6.9397e-07 6.62866e-07 2.10914e-07" />
+        <joint name="R_middle_MCP_joint" pos="0 0 0" axis="1 0 0" range="0 1.68" actuatorfrcrange="-50 50" />
+        <geom name="R_middle_proximal_visual_geom" type="mesh" rgba="1 1 1 1" mesh="R_middle_proximal" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+        <geom name="R_middle_proximal_collision_geom" type="mesh" rgba="1 1 1 1" mesh="R_middle_proximal" />
+        <body name="R_middle_distal" pos="0.0016673 0.030445 0.010275" quat="0.999363 0.0356989 0 0">
+            <inertial pos="0.0063978 0.020807 0.0018039" quat="0.589614 0.807685 -6.23875e-05 4.98373e-05" mass="0.0050396" diaginertia="9.8384e-07 9.73281e-07 9.13985e-08" />
+            <joint name="R_middle_DIP_joint" pos="0 0 0" axis="1 0 0" range="0 1.6" actuatorfrcrange="-50 50" />
+            <geom name="R_middle_distal_visual_geom" type="mesh" rgba="1 1 1 1" mesh="R_middle_distal" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+            <geom name="R_middle_distal_collision_geom" type="mesh" rgba="1 1 1 1" mesh="R_middle_distal" />
+        </body>
+    </body>
+
+    <body name="R_ring_proximal" pos="0.00703 -0.019661 0.136209" quat="-0.547245 -0.447798 -0.419451 -0.569263">
+        <inertial pos="0.0080207 0.011884 0.0016959" quat="0.629449 0.777042 1.88154e-05 -2.40552e-05" mass="0.0042403" diaginertia="6.9397e-07 6.62866e-07 2.10914e-07" />
+        <joint name="R_ring_MCP_joint" pos="0 0 0" axis="1 0 0" range="0 1.7" actuatorfrcrange="-50 50" />
+        <geom name="R_ring_proximal_visual_geom" type="mesh" rgba="1 1 1 1" mesh="R_ring_proximal" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+        <geom name="R_ring_proximal_collision_geom" type="mesh" rgba="1 1 1 1" mesh="R_ring_proximal" />
+        <body name="R_ring_distal" pos="0 0.030445 0.010275" quat="0.999803 0.0198727 0 0">
+            <inertial pos="0.0080209 0.019591 0.0019565" quat="0.581926 0.813242 0 0" mass="0.0045683" diaginertia="7.8177e-07 7.72447e-07 8.47227e-08" />
+            <joint name="R_ring_DIP_joint" pos="0 0 0" axis="1 0 0" range="0 1.6" actuatorfrcrange="-50 50" />
+            <geom name="R_ring_distal_visual_geom" type="mesh" rgba="1 1 1 1" mesh="R_ring_distal" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+            <geom name="R_ring_distal_collision_geom" type="mesh" rgba="1 1 1 1" mesh="R_ring_distal" />
+        </body>
+    </body>
+
+    <body name="R_pinky_proximal" pos="0.007286 -0.038676 0.134325" quat="-0.535335 -0.46197 -0.404406 -0.580048">
+        <inertial pos="0.0078887 0.011884 0.0016959" quat="0.629449 0.777042 2.01737e-05 -2.54775e-05" mass="0.0042403" diaginertia="6.9397e-07 6.62866e-07 2.10914e-07" />
+        <joint name="R_pinky_MCP_joint" pos="0 0 0" axis="1 0 0" range="0 1.7" actuatorfrcrange="-50 50" />
+        <geom name="R_pinky_proximal_visual_geom" type="mesh" rgba="1 1 1 1" mesh="R_pinky_proximal" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+        <geom name="R_pinky_proximal_collision_geom" type="mesh" rgba="1 1 1 1" mesh="R_pinky_proximal" />
+        <body name="R_pinky_distal" pos="0 0.030445 0.010275" quat="0.999822 -0.0188444 0 0">
+            <inertial pos="0.0078857 0.016239 0.0022243" quat="0.553304 0.832968 0.0036878 -0.00236477" mass="0.0035996" diaginertia="4.4867e-07 4.43716e-07 6.56536e-08" />
+            <joint name="R_pinky_DIP_joint" pos="0 0 0" axis="1 0 0" range="0 1.6" actuatorfrcrange="-50 50" />
+            <geom name="R_pinky_distal_visual_geom" type="mesh" rgba="1 1 1 1" mesh="R_pinky_distal" contype="1" conaffinity="0" density="0" group="1" class="visualgeom" />
+            <geom name="R_pinky_distal_collision_geom" type="mesh" rgba="1 1 1 1" mesh="R_pinky_distal" />
+        </body>
+    </body>
+</body>
+  </worldbody>
+
+  <actuator>
+    <!--灵巧手部分-->
+    <position name="R_thumb_MCP_joint1" joint="R_thumb_MCP_joint1" ctrllimited="true" ctrlrange="0 1.1" kp="3" kv="1"/>
+    <position name="R_thumb_MCP_joint2" joint="R_thumb_MCP_joint2" ctrllimited="true" ctrlrange="0 0.5" kp="3" kv="1"/>
+    <position name="R_index_MCP_joint" joint="R_index_MCP_joint" ctrllimited="true" ctrlrange="0 1.7" kp="3" kv="1"/>
+    <position name="R_middle_MCP_joint" joint="R_middle_MCP_joint" ctrllimited="true" ctrlrange="0 1.68" kp="3" kv="1"/>
+    <position name="R_ring_MCP_joint" joint="R_ring_MCP_joint" ctrllimited="true" ctrlrange="0 1.7" kp="3" kv="1"/>
+    <position name="R_pinky_MCP_joint" joint="R_pinky_MCP_joint" ctrllimited="true" ctrlrange="0 1.7" kp="3" kv="1"/>
+  </actuator>
+
+  <sensor>
+    <!--灵巧手部分-->
+    <actuatorpos name="R_thumb_MCP_joint1_p" actuator="R_thumb_MCP_joint1" />
+    <actuatorvel name="R_thumb_MCP_joint1_v" actuator="R_thumb_MCP_joint1" />
+    <actuatorfrc name="R_thumb_MCP_joint1_f" actuator="R_thumb_MCP_joint1" noise="0.001" />
+    <actuatorpos name="R_thumb_MCP_joint2_p" actuator="R_thumb_MCP_joint2" />
+    <actuatorvel name="R_thumb_MCP_joint2_v" actuator="R_thumb_MCP_joint2" />
+    <actuatorfrc name="R_thumb_MCP_joint2_f" actuator="R_thumb_MCP_joint2" noise="0.001" />
+    <actuatorpos name="R_index_MCP_joint_p" actuator="R_index_MCP_joint" />
+    <actuatorvel name="R_index_MCP_joint_v" actuator="R_index_MCP_joint" />
+    <actuatorfrc name="R_index_MCP_joint_f" actuator="R_index_MCP_joint" noise="0.001" />
+    <actuatorpos name="R_middle_MCP_joint_p" actuator="R_middle_MCP_joint" />
+    <actuatorvel name="R_middle_MCP_joint_v" actuator="R_middle_MCP_joint" />
+    <actuatorfrc name="R_middle_MCP_joint_f" actuator="R_middle_MCP_joint" noise="0.001" />
+    <actuatorpos name="R_ring_MCP_joint_p" actuator="R_ring_MCP_joint" />
+    <actuatorvel name="R_ring_MCP_joint_v" actuator="R_ring_MCP_joint" />
+    <actuatorfrc name="R_ring_MCP_joint_f" actuator="R_ring_MCP_joint" noise="0.001" />
+    <actuatorpos name="R_pinky_MCP_joint_p" actuator="R_pinky_MCP_joint" />
+    <actuatorvel name="R_pinky_MCP_joint_v" actuator="R_pinky_MCP_joint" />
+    <actuatorfrc name="R_pinky_MCP_joint_f" actuator="R_pinky_MCP_joint" noise="0.001" />
+    <framequat name="orientation2" objtype="site" noise="0.001" objname="imu2" />
+    <gyro name="angular-velocity2" site="imu2" noise="0.005" cutoff="34.9" />
+  </sensor>
+
+  <!--联动设计-->
+  <equality>
+    <joint joint1="R_thumb_MCP_joint2" joint2="R_thumb_PIP_joint" polycoef="0 1 0 0 0"/>
+    <joint joint1="R_index_MCP_joint" joint2="R_index_DIP_joint" polycoef="0 1 0 0 0"/>
+    <joint joint1="R_middle_MCP_joint" joint2="R_middle_DIP_joint" polycoef="0 1 0 0 0"/>
+    <joint joint1="R_ring_MCP_joint" joint2="R_ring_DIP_joint" polycoef="0 1 0 0 0"/>
+    <joint joint1="R_pinky_MCP_joint" joint2="R_pinky_DIP_joint" polycoef="0 1 0 0 0"/>
+    <!--臂与手结合-->
+    <weld name="weld_hand_to_link7" body1="Link7" body2="R_hand_base_link" />
+    <weld name="arm_to_ground" body1="root1" body2="iron_base" />
+    <!--臂固定在平台上-->
+  </equality>
+
+
+</mujoco>
